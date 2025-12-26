@@ -1,4 +1,5 @@
 import { useRouter } from "next/router"
+import { ReactNode } from "react"
 const page = () => {
 	const router = useRouter()
 	const { q } = router.query
@@ -6,3 +7,8 @@ const page = () => {
 }
 
 export default page
+
+page.getLayout = (page: ReactNode) => {
+	const SearchableLayout = require("@/components/searchable-layout").default
+	return <SearchableLayout>{page}</SearchableLayout>
+}
