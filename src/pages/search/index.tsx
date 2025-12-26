@@ -1,9 +1,18 @@
 import { useRouter } from "next/router"
 import { ReactNode } from "react"
+import movies from "@/mock/movies.json"
+import MovieItem from "@/components/movie-item"
+import style from "./search.module.css"
 const page = () => {
 	const router = useRouter()
 	const { q } = router.query
-	return <h1>검색결과 : {q}</h1>
+	return (
+		<div className={style.container}>
+			{movies.map((movie) => (
+				<MovieItem key={movie.id} {...movie} />
+			))}
+		</div>
+	)
 }
 
 export default page

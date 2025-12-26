@@ -1,0 +1,21 @@
+.container{
+	display:flex;
+	flex-direction: column;
+	padding: 20px 0;
+}
+
+.recommended_movies {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
+}
+
+.all_movies {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 10px;
+}
+
+.all_movies img {
+	max-height: 200px;
+}

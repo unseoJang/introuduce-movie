@@ -1,0 +1,11 @@
+.container{
+	display:flex;
+
+	color:black;
+	text-decoration: none;
+}
+
+.container img{
+	max-height: 350px;
+	height:auto;
+}
