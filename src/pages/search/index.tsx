@@ -1,11 +1,28 @@
-import { useRouter } from "next/router"
+// import { useRouter } from "next/router"
 import { ReactNode } from "react"
-import movies from "@/mock/movies.json"
+// import movies from "@/mock/movies.json"
 import MovieItem from "@/components/movie-item"
 import style from "./search.module.css"
-const page = () => {
-	const router = useRouter()
-	const { q } = router.query
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
+import fetchMovies from "@/lib/fetch-movies"
+
+export const getServerSideProps = async (
+	context: GetServerSidePropsContext
+) => {
+	const q = context.query.q as string
+	const movies = await fetchMovies(q)
+	return {
+		props: {
+			movies,
+		},
+	}
+}
+
+const page = ({
+	movies,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	// const router = useRouter()
+	// const { q } = router.query
 	return (
 		<div className={style.container}>
 			{movies.map((movie) => (
