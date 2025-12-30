@@ -1,6 +1,7 @@
-import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
+import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
 import style from "./[id].module.css"
 import fetchOneMovie from "@/lib/fetch-one-movie"
+import { useRouter } from "next/router"
 
 // const mockData = {
 // 	id: 1,
@@ -16,11 +17,25 @@ import fetchOneMovie from "@/lib/fetch-one-movie"
 // 		"https://search.pstatic.net/common?quality=75&direct=true&src=https%3A%2F%2Fmovie-phinf.pstatic.net%2F20250207_265%2F1738893336962Cn1Vd_JPEG%2Fmovie_image.jpg",
 // }
 
-export const getServerSideProps = async (
-	context: GetServerSidePropsContext
-) => {
-	const { id } = context.query!
+export const getStaticPaths = async () => {
+	return {
+		paths: [
+			{ params: { id: "1" } },
+			{ params: { id: "2" } },
+			{ params: { id: "3" } },
+		],
+		fallback: true, // false or 'blocking'
+	}
+}
+
+export const getStaticProps = async (context: GetStaticPropsContext) => {
+	const { id } = context.params!
 	const movie = await fetchOneMovie(Number(id))
+	if (!movie) {
+		return {
+			notFound: true,
+		}
+	}
 	return {
 		props: {
 			movie,
@@ -28,9 +43,13 @@ export const getServerSideProps = async (
 	}
 }
 
-const page = ({ movie }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Page = ({ movie }: InferGetStaticPropsType<typeof getStaticProps>) => {
+	const router = useRouter()
+	if (router.isFallback) return "로딩중입니다"
+	if (!movie) return "영화를 찾을수 없습니다 다시 시도하세요"
+
 	const {
-		id,
+		// id,
 		title,
 		releaseDate,
 		company,
@@ -59,4 +78,4 @@ const page = ({ movie }: InferGetServerSidePropsType<typeof getServerSideProps>)
 	)
 }
 
-export default page
+export default Page
