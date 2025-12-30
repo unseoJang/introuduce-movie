@@ -50,7 +50,7 @@ const Page = ({ movie }: InferGetStaticPropsType<typeof getStaticProps>) => {
 		<>
 			<Head>
 				<title>한입 씨네마 - {title}</title>
-				<meta property="og:image" content={description} />
+				<meta property="og:image" content={posterImgUrl} />
 				<meta property="og:title" content={`한입 씨네마 - ${title}`} />
 				<meta property="og:description" content={description} />
 			</Head>
